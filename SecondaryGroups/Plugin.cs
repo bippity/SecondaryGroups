@@ -25,18 +25,18 @@ namespace SecondaryGroups
       Database.Connect();
       PlayerHooks.PlayerPermission += OnPlayerPermission;
 
-      PlayerHooks.PlayerItembanPermission += OnItemban;
+      /*PlayerHooks.PlayerItembanPermission += OnItemban;
       PlayerHooks.PlayerProjbanPermission += OnProjban;
 
       PlayerHooks.PlayerTilebanPermission += OnTileban;
-
+      */
 
       TShockAPI.Commands.ChatCommands.Add(
         new Command("secondarygroups.modify", CommandRouter, "sgroup", "secgroup")
       );
     }
 
-    private static void OnItemban(PlayerItembanPermissionEventArgs e)
+    /*private static void OnItemban(PlayerItembanPermissionEventArgs e)
     {
       if (e.Player.User == null) return;
 
@@ -71,6 +71,7 @@ namespace SecondaryGroups
       if (data.Groups.Any(g => e.BannedTile.AllowedGroups.Contains(g.Name)))
         e.Handled = true;
     }
+    */
 
     private static void CommandRouter(CommandArgs args)
     {
@@ -138,10 +139,11 @@ namespace SecondaryGroups
     {
       PlayerHooks.PlayerPermission -= OnPlayerPermission;
 
-      PlayerHooks.PlayerTilebanPermission -= OnTileban;
+      /*PlayerHooks.PlayerTilebanPermission -= OnTileban;
       PlayerHooks.PlayerProjbanPermission -= OnProjban;
 
       PlayerHooks.PlayerTilebanPermission -= OnTileban;
+      */
       base.Dispose(disposing);
     }
   }

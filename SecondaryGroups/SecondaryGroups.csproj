@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecondaryGroups</RootNamespace>
     <AssemblyName>SecondaryGroups</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,22 +32,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Data.Sqlite">
-      <HintPath>..\..\..\..\Desktop\Tools\TShock\ServerPlugins\Mono.Data.Sqlite.dll</HintPath>
+      <HintPath>..\..\Tshock-refs\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\..\Desktop\Tools\TShock\ServerPlugins\MySql.Data.dll</HintPath>
+      <HintPath>..\..\Tshock-refs\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="OTAPI">
-      <HintPath>..\..\..\..\Desktop\Tools\TShock\ServerPlugins\OTAPI.dll</HintPath>
+      <HintPath>..\..\Tshock-refs\OTAPI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="TerrariaServer">
-      <HintPath>..\..\..\..\Desktop\Tools\TShock\ServerPlugins\TerrariaServer.exe</HintPath>
+      <HintPath>..\..\Tshock-refs\TerrariaServer.exe</HintPath>
     </Reference>
     <Reference Include="TShockAPI">
-      <HintPath>..\..\..\..\Desktop\Tools\TShock\ServerPlugins\TShockAPI.dll</HintPath>
+      <HintPath>..\..\Tshock-refs\TShockAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
