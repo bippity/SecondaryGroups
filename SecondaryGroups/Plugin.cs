@@ -14,7 +14,6 @@ namespace SecondaryGroups
     public Plugin(Main game) : base(game)
     {
     }
-
     public override string Name => "SecondaryGroups";
     public override string Author => "Newy";
     public override string Description => "XenForo style secondary groups!";
@@ -24,6 +23,8 @@ namespace SecondaryGroups
     {
       Database.Connect();
       PlayerHooks.PlayerPermission += OnPlayerPermission;
+
+      ServerApi.Hooks.ServerChat.Register(this, OnServerChat);
 
       /*PlayerHooks.PlayerItembanPermission += OnItemban;
       PlayerHooks.PlayerProjbanPermission += OnProjban;
@@ -36,42 +37,77 @@ namespace SecondaryGroups
       );
     }
 
-    /*private static void OnItemban(PlayerItembanPermissionEventArgs e)
+        /*private static void OnItemban(PlayerItembanPermissionEventArgs e)
+        {
+          if (e.Player.User == null) return;
+
+          var data = GroupData.Get(e.Player.User);
+
+          if (data == null) return;
+
+          if (data.Groups.Any(g => e.BannedItem.AllowedGroups.Contains(g.Name)))
+            e.Handled = true;
+        }
+
+        private static void OnProjban(PlayerProjbanPermissionEventArgs e)
+        {
+          if (e.Player.User == null) return;
+
+          var data = GroupData.Get(e.Player.User);
+
+          if (data == null) return;
+
+          if (data.Groups.Any(g => e.BannedProjectile.AllowedGroups.Contains(g.Name)))
+            e.Handled = true;
+        }
+
+        private static void OnTileban(PlayerTilebanPermissionEventArgs e)
+        {
+          if (e.Player.User == null) return;
+
+          var data = GroupData.Get(e.Player.User);
+
+          if (data == null) return;
+
+          if (data.Groups.Any(g => e.BannedTile.AllowedGroups.Contains(g.Name)))
+            e.Handled = true;
+        }
+        */
+    
+    //Code grabbed from USF
+    private static void OnServerChat(ServerChatEventArgs e)
     {
-      if (e.Player.User == null) return;
+            if (e.Handled)
+                return;
 
-      var data = GroupData.Get(e.Player.User);
+            var player = TShock.Players[e.Who];
 
-      if (data == null) return;
+            if (player == null || !player.IsLoggedIn)
+                return;
 
-      if (data.Groups.Any(g => e.BannedItem.AllowedGroups.Contains(g.Name)))
-        e.Handled = true;
+            if (!player.HasPermission(TShockAPI.Permissions.canchat) || player.mute)
+                return;
+
+            if (e.Text.StartsWith(TShock.Config.CommandSpecifier) ||
+                e.Text.StartsWith(TShock.Config.CommandSilentSpecifier))
+                return;
+
+            var data = GroupData.Get(player.User);
+            if (data == null) return;
+
+            var prefix = data.Groups.LastOrDefault().Prefix ?? player.Group.Prefix;
+            //Apparently there isn't a ParseColor method for string
+            //var chatColor = playerData.ChatData.Color?.ParseColor() ?? player.Group.ChatColor.ParseColor();
+            var group = data.Groups.LastOrDefault() ?? player.Group;
+
+            var message = string.Format(TShock.Config.ChatFormat, player.Group.Name, prefix, player.Name, player.Group.Suffix,
+                e.Text);
+            TSPlayer.All.SendMessage(message, group.R, group.G, group.B);
+            TSPlayer.Server.SendMessage(message, group.R, group.G, group.B);
+            TShock.Log.Info($"Broadcast: {message}");
+
+            e.Handled = true;
     }
-
-    private static void OnProjban(PlayerProjbanPermissionEventArgs e)
-    {
-      if (e.Player.User == null) return;
-
-      var data = GroupData.Get(e.Player.User);
-
-      if (data == null) return;
-
-      if (data.Groups.Any(g => e.BannedProjectile.AllowedGroups.Contains(g.Name)))
-        e.Handled = true;
-    }
-
-    private static void OnTileban(PlayerTilebanPermissionEventArgs e)
-    {
-      if (e.Player.User == null) return;
-
-      var data = GroupData.Get(e.Player.User);
-
-      if (data == null) return;
-
-      if (data.Groups.Any(g => e.BannedTile.AllowedGroups.Contains(g.Name)))
-        e.Handled = true;
-    }
-    */
 
     private static void CommandRouter(CommandArgs args)
     {
