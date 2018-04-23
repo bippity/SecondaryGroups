@@ -5,6 +5,7 @@ using Terraria;
 using TerrariaApi.Server;
 using TShockAPI;
 using TShockAPI.Hooks;
+using SecondaryGroups.Extensions;
 
 namespace SecondaryGroups
 {
@@ -96,14 +97,13 @@ namespace SecondaryGroups
             if (data == null) return;
 
             var prefix = data.Groups.LastOrDefault().Prefix ?? player.Group.Prefix;
-            //Apparently there isn't a ParseColor method for string
-            //var chatColor = playerData.ChatData.Color?.ParseColor() ?? player.Group.ChatColor.ParseColor();
-            var group = data.Groups.LastOrDefault() ?? player.Group;
+            //var group = data.Groups.LastOrDefault() ?? player.Group;
+            var chatColor = data.Groups.LastOrDefault().ChatColor?.ParseColor() ?? player.Group.ChatColor.ParseColor();
 
             var message = string.Format(TShock.Config.ChatFormat, player.Group.Name, prefix, player.Name, player.Group.Suffix,
                 e.Text);
-            TSPlayer.All.SendMessage(message, group.R, group.G, group.B);
-            TSPlayer.Server.SendMessage(message, group.R, group.G, group.B);
+            TSPlayer.All.SendMessage(message, chatColor);
+            TSPlayer.Server.SendMessage(message, chatColor);
             TShock.Log.Info($"Broadcast: {message}");
 
             e.Handled = true;
