@@ -94,7 +94,7 @@ namespace SecondaryGroups
                 return;
 
             var data = GroupData.Get(player.User);
-            if (data == null) return;
+            if (data == null || data.Groups.Count == 0) return;
 
             var prefix = data.Groups.LastOrDefault().Prefix ?? player.Group.Prefix;
             //var group = data.Groups.LastOrDefault() ?? player.Group;
